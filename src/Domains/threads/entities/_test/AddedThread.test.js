@@ -33,7 +33,7 @@ describe('a AddedThread entities', () => {
     const payload = {
       id: 'thread-123',
       title: 'Dicoding Indonesia is the best',
-      owner: 'John Doe',
+      owner: 'johndoe',
     };
 
     // Action
