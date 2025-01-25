@@ -57,14 +57,14 @@ describe('CommentRepositoryPostgres', () => {
     it('should return added comment correctly', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({
-        username: 'dicoding',
-        password: 'secret',
-        fullname: 'dicoding',
+        username: 'johndoe',
+        password: 'supersecretpassword',
+        fullname: 'John Doe',
       });
 
       await ThreadsTableTestHelper.addThread({
-        title: 'some thread',
-        body: 'some body thread',
+        title: 'Dicoding Indonesia is the best',
+        body: 'bla bla bla',
       });
 
       const addComment = new AddComment({
@@ -140,6 +140,7 @@ describe('CommentRepositoryPostgres', () => {
       // Action & Assert
       expect(() => commentRepositoryPostgres.verifyCommentIsExist({
         id: 'comment-123',
+        // commentId: 'comment-123',
         threadId: 'thread-123',
       })).rejects.toThrowError(NotFoundError);
     });
@@ -245,7 +246,7 @@ describe('CommentRepositoryPostgres', () => {
       const firstComment = {
         id: 'comment-123',
         date: '2025-01-24T16:36:11.362Z',
-        content: 'bla bla',
+        content: 'bla bla bla',
         owner: 'user-123',
         isDeleted: false,
       };
@@ -253,7 +254,7 @@ describe('CommentRepositoryPostgres', () => {
       const secondComment = {
         id: 'comment-456',
         date: '2025-01-24T16:36:11.362Z',
-        content: 'bla bla',
+        content: 'bla bla bla',
         owner: 'user-123',
         isDeleted: false,
       };
