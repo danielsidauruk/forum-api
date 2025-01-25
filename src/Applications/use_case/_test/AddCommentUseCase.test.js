@@ -1,4 +1,3 @@
-// const AddedComment = require('../../../Domains/comments/entities/AddedComment');
 const AddedComment = require('../../../Domains/comments/entities/AddedComment');
 const AddComment = require('../../../Domains/comments/entities/AddComment');
 const CommentRepository = require('../../../Domains/comments/CommentRepository');

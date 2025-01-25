@@ -139,7 +139,7 @@ describe('CommentRepositoryPostgres', () => {
 
       // Action & Assert
       expect(() => commentRepositoryPostgres.verifyCommentIsExist({
-        commentId: 'comment-123',
+        id: 'comment-123',
         threadId: 'thread-123',
       })).rejects.toThrowError(NotFoundError);
     });
@@ -165,12 +165,10 @@ describe('CommentRepositoryPostgres', () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       // Action & Assert
-      await expect(
-        commentRepositoryPostgres.verifyCommentIsExist({
-          id: 'comment-123',
-          threadId: 'thread-123',
-        }),
-      ).resolves.not.toThrowError(NotFoundError);
+      await expect(commentRepositoryPostgres.verifyCommentIsExist({
+        id: 'comment-123',
+        threadId: 'thread-123',
+      })).resolves.not.toThrowError(NotFoundError);
     });
   });
 
