@@ -140,7 +140,6 @@ describe('CommentRepositoryPostgres', () => {
       // Action & Assert
       expect(() => commentRepositoryPostgres.verifyCommentIsExist({
         id: 'comment-123',
-        // commentId: 'comment-123',
         threadId: 'thread-123',
       })).rejects.toThrowError(NotFoundError);
     });
@@ -236,7 +235,7 @@ describe('CommentRepositoryPostgres', () => {
       // Arrange
       const user = {
         id: 'user-123',
-        username: 'John Doe',
+        username: 'johndoe',
       };
 
       const newThread = {
@@ -245,7 +244,7 @@ describe('CommentRepositoryPostgres', () => {
 
       const firstComment = {
         id: 'comment-123',
-        date: '2025-01-24T16:36:11.362Z',
+        date: '2025-01-24T16:36:10.362Z',
         content: 'bla bla bla',
         owner: 'user-123',
         isDeleted: false,
@@ -274,8 +273,8 @@ describe('CommentRepositoryPostgres', () => {
 
       // Assert
       expect(comments).toEqual([
-        new DetailComment({ ...firstComment, username: 'John Doe' }),
-        new DetailComment({ ...secondComment, username: 'John Doe' }),
+        new DetailComment({ ...firstComment, username: 'johndoe' }),
+        new DetailComment({ ...secondComment, username: 'johndoe' }),
       ]);
     });
   });
