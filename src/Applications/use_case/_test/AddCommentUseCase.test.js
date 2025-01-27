@@ -50,18 +50,14 @@ describe('AddCommentUseCase', () => {
     );
 
     // Assert
-    expect(mockThreadRepository.verifyThreadIsExistById).toBeCalledWith(
-      params.threadId,
-    );
-
+    expect(mockThreadRepository.verifyThreadIsExistById).toBeCalledWith(params.threadId);
     expect(mockCommentRepository.addComment).toBeCalledWith(
       new AddComment({
         content: payload.content,
-        owner,
         threadId: params.threadId,
+        owner,
       }),
     );
-
     expect(addedComment).toStrictEqual(expectedAddedComment);
   });
 });

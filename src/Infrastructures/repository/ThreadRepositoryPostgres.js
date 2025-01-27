@@ -12,29 +12,39 @@ class ThreadRepositoryPostgres extends ThreadRepository {
 
   async addThread(thread) {
     const { title, body, owner } = thread;
-    const id = `thread-${this._idGenerator()}`;
+    const threadId = `thread-${this._idGenerator()}`;
     const date = new Date().toISOString();
 
     const query = {
-      text: 'INSERT INTO threads (id, title, body, owner, date) VALUES ($1, $2, $3, $4, $5) RETURNING id, title, owner',
-      values: [id, title, body, owner, date],
+      text: `INSERT INTO
+              threads (id, title, body, owner, date)
+            VALUES
+              ($1, $2, $3, $4, $5)
+            RETURNING
+              id, title, owner`,
+      values: [threadId, title, body, owner, date],
     };
 
     const { rows } = await this._pool.query(query);
     return new AddedThread({ ...rows[0] });
   }
 
-  async getThreadById(id) {
+  async getThreadById(threadId) {
     const query = {
-      text: `SELECT threads.id,
-             threads.title,
-             threads.body,
-             threads.date,
-             users.username
-             FROM threads INNER JOIN users
-             ON threads.owner = users.id
-             WHERE threads.id = $1`,
-      values: [id],
+      text: `SELECT
+              threads.id,
+              threads.title,
+              threads.body,
+              threads.date,
+              users.username
+            FROM
+              threads
+            INNER JOIN
+              users
+            ON
+              threads.owner = users.id
+            WHERE threads.id = $1`,
+      values: [threadId],
     };
 
     const result = await this._pool.query(query);
@@ -46,10 +56,10 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     return result.rows[0];
   }
 
-  async verifyThreadIsExistById(id) {
+  async verifyThreadIsExistById(threadId) {
     const query = {
       text: 'SELECT * FROM threads WHERE id = $1',
-      values: [id],
+      values: [threadId],
     };
 
     const result = await this._pool.query(query);
@@ -59,10 +69,10 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     }
   }
 
-  async deleteThreadById(id) {
+  async deleteThreadById(threadId) {
     const query = {
       text: 'DELETE FROM threads WHERE id = $1',
-      values: [id],
+      values: [threadId],
     };
 
     await this._pool.query(query);

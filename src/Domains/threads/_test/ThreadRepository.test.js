@@ -9,14 +9,11 @@ describe('ThreadRepository interface', () => {
     await expect(threadRepository.addThread({})).rejects.toThrowError(
       'THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED',
     );
-
     await expect(threadRepository.getThreadById('')).rejects.toThrowError(
       'THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED',
     );
-
     await expect(threadRepository.verifyThreadIsExistById(''))
       .rejects.toThrowError('THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED');
-
     await expect(threadRepository.deleteThreadById('')).rejects.toThrowError(
       'THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED',
     );

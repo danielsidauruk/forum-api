@@ -13,36 +13,45 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async addComment(comment) {
     const { content, owner, threadId } = comment;
-    const id = `comment-${this._idGenerator()}`;
+    const commentId = `comment-${this._idGenerator()}`;
     const date = new Date().toISOString();
 
     const query = {
-      text: `INSERT INTO comments (id, content, owner, thread_id, date)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING id, content, owner`,
-      values: [id, content, owner, threadId, date],
+      text: `INSERT INTO comments 
+              (id, content, owner, thread_id, date)
+            VALUES 
+              ($1, $2, $3, $4, $5)
+            RETURNING 
+              id, content, owner`,
+      values: [commentId, content, owner, threadId, date],
     };
 
     const { rows } = await this._pool.query(query);
     return new AddedComment({ ...rows[0] });
   }
 
-  async deleteCommentById(id) {
+  async deleteCommentById(commentId) {
     const query = {
       text: 'UPDATE comments SET is_deleted = TRUE WHERE id = $1',
-      values: [id],
+      values: [commentId],
     };
 
     await this._pool.query(query);
   }
 
-  async verifyCommentIsExist({ id, threadId }) {
+  async verifyCommentIsExist({ commentId, threadId }) {
     const query = {
-      text: `SELECT * FROM comments
-             INNER JOIN threads
-             ON comments.thread_id = threads.id
-             WHERE comments.id = $1 AND threads.id = $2`,
-      values: [id, threadId],
+      text: `SELECT
+              * 
+            FROM
+              comments
+            INNER JOIN
+              threads
+            ON 
+              comments.thread_id = threads.id
+            WHERE 
+              comments.id = $1 AND threads.id = $2`,
+      values: [commentId, threadId],
     };
 
     const { rowCount } = await this._pool.query(query);
@@ -50,10 +59,10 @@ class CommentRepositoryPostgres extends CommentRepository {
     if (!rowCount) throw new NotFoundError('comment not found');
   }
 
-  async verifyCommentOwner({ id, owner }) {
+  async verifyCommentOwner({ commentId, owner }) {
     const query = {
       text: 'SELECT 1 FROM comments WHERE id = $1 AND owner = $2',
-      values: [id, owner],
+      values: [commentId, owner],
     };
 
     const { rowCount } = await this._pool.query(query);
@@ -64,7 +73,7 @@ class CommentRepositoryPostgres extends CommentRepository {
     }
   }
 
-  async getCommentsByThreadId(id) {
+  async getCommentsByThreadId(commentId) {
     const query = {
       text: `SELECT 
                 comments.id,
@@ -80,7 +89,7 @@ class CommentRepositoryPostgres extends CommentRepository {
                 comments.thread_id = $1
              ORDER BY 
                 comments.date ASC`,
-      values: [id],
+      values: [commentId],
     };
 
     const { rows } = await this._pool.query(query);

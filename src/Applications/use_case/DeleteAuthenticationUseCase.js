@@ -1,7 +1,6 @@
+/* eslint-disable class-methods-use-this */
 class DeleteAuthenticationUseCase {
-  constructor({
-    authenticationRepository,
-  }) {
+  constructor({ authenticationRepository }) {
     this._authenticationRepository = authenticationRepository;
   }
 

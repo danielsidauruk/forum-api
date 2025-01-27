@@ -15,12 +15,10 @@ class GetThreadUseCase {
   }
 
   async execute(useCaseParams) {
-    const { threadId } = useCaseParams;
-    const thread = await this._threadRepository.getThreadById(threadId);
-    const comments = await this._commentRepository.getCommentsByThreadId(
-      threadId,
-    );
-    const replies = await this._replyRepository.getRepliesByThreadId(threadId);
+    const { id } = useCaseParams;
+    const thread = await this._threadRepository.getThreadById(id);
+    const comments = await this._commentRepository.getCommentsByThreadId(id);
+    const replies = await this._replyRepository.getRepliesByThreadId(id);
 
     thread.comments = this._getRepliesForComment(comments, replies);
 

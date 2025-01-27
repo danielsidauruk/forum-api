@@ -1,16 +1,16 @@
 const routes = (handler) => [
   {
     method: 'POST',
-    path: '/threads/{threadId}/comments',
-    handler: handler.postAddCommentHandler,
+    path: '/threads/{threadId}/comments/{commentId}/replies',
+    handler: handler.postCommentReplyHandler,
     options: {
       auth: 'forum_api_jwt',
     },
   },
   {
     method: 'DELETE',
-    path: '/threads/{threadId}/comments/{commentId}',
-    handler: handler.deleteCommentHandler,
+    path: '/threads/{threadId}/comments/{commentId}/replies/{replyId}',
+    handler: handler.deleteReplyHandler,
     options: {
       auth: 'forum_api_jwt',
     },

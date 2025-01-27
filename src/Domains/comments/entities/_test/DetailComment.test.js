@@ -7,8 +7,6 @@ describe('a DetailComment entities', () => {
       id: 'comment-123',
       username: 'johndoe',
       date: new Date().toISOString(),
-      // content: 'bla bla bla',
-      // isDeleted: false,
     };
 
     // Action & Assert

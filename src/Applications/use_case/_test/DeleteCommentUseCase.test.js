@@ -5,7 +5,7 @@ describe('DeleteCommentUseCase', () => {
   it('should orchestrating delete comment correctly', async () => {
     // Arrange
     const params = {
-      id: 'comment-123',
+      commentId: 'comment-123',
       threadId: 'thread-123',
     };
     const owner = 'user-123';
@@ -23,22 +23,19 @@ describe('DeleteCommentUseCase', () => {
       commentRepository: mockCommentRepository,
     });
 
-    // Act
     await deleteCommentUseCase.execute(params, owner);
 
     // Assert
     expect(mockCommentRepository.verifyCommentIsExist).toBeCalledWith({
-      id: params.id,
+      commentId: params.commentId,
       threadId: params.threadId,
     });
-
     expect(mockCommentRepository.verifyCommentOwner).toBeCalledWith({
-      id: params.id,
+      commentId: params.commentId,
       owner,
     });
-
     expect(mockCommentRepository.deleteCommentById).toBeCalledWith(
-      params.id,
+      params.commentId,
     );
   });
 });

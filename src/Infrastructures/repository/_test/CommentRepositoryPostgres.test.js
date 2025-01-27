@@ -21,7 +21,7 @@ describe('CommentRepositoryPostgres', () => {
   });
 
   describe('addComment function', () => {
-    it('should persist add new comment correctly', async () => {
+    it('should persist add comment correctly', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({
         username: 'johndoe',
@@ -96,7 +96,7 @@ describe('CommentRepositoryPostgres', () => {
   });
 
   describe('deleteComment function', () => {
-    it('should delete comment by id', async () => {
+    it('should delete comment by commentId', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({
         username: 'johndoe',
@@ -123,9 +123,7 @@ describe('CommentRepositoryPostgres', () => {
 
       // Action
       await commentRepositoryPostgres.deleteCommentById(addedComment.id);
-      const comment = await CommentsTableTestHelper.findCommentById(
-        addedComment.id,
-      );
+      const comment = await CommentsTableTestHelper.findCommentById(addedComment.id);
 
       // Assert
       expect(comment[0].is_deleted).toEqual(true);
@@ -139,7 +137,7 @@ describe('CommentRepositoryPostgres', () => {
 
       // Action & Assert
       expect(() => commentRepositoryPostgres.verifyCommentIsExist({
-        id: 'comment-123',
+        commentId: 'comment-123',
         threadId: 'thread-123',
       })).rejects.toThrowError(NotFoundError);
     });
@@ -166,7 +164,7 @@ describe('CommentRepositoryPostgres', () => {
 
       // Action & Assert
       await expect(commentRepositoryPostgres.verifyCommentIsExist({
-        id: 'comment-123',
+        commentId: 'comment-123',
         threadId: 'thread-123',
       })).resolves.not.toThrowError(NotFoundError);
     });
@@ -195,7 +193,7 @@ describe('CommentRepositoryPostgres', () => {
 
       // Action & Assert
       expect(() => commentRepositoryPostgres.verifyCommentOwner({
-        id: 'comment-123',
+        commentId: 'comment-123',
         owner: 'user-122',
       })).rejects.toThrowError(AuthorizationError);
     });
@@ -223,7 +221,7 @@ describe('CommentRepositoryPostgres', () => {
       // Action & Assert
       await expect(
         commentRepositoryPostgres.verifyCommentOwner({
-          id: 'comment-123',
+          commentId: 'comment-123',
           owner: 'user-123',
         }),
       ).resolves.not.toThrowError(AuthorizationError);

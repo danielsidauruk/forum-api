@@ -7,7 +7,7 @@ describe('DeleteReplyUseCase', () => {
     const params = {
       commentId: 'comment-123',
       threadId: 'thread-123',
-      id: 'reply-123',
+      replyId: 'reply-123',
     };
 
     const owner = 'johndoe';
@@ -29,14 +29,14 @@ describe('DeleteReplyUseCase', () => {
     expect(mockReplyRepository.verifyReplyIsExist).toBeCalledWith({
       threadId: params.threadId,
       commentId: params.commentId,
-      id: params.id,
+      replyId: params.replyId,
     });
 
     expect(mockReplyRepository.verifyReplyOwner).toBeCalledWith({
-      id: params.id,
+      replyId: params.replyId,
       owner,
     });
 
-    expect(mockReplyRepository.deleteReplyById).toBeCalledWith(params.id);
+    expect(mockReplyRepository.deleteReplyById).toBeCalledWith(params.replyId);
   });
 });

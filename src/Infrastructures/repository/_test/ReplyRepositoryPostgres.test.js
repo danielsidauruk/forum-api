@@ -17,14 +17,14 @@ describe('ReplyRepositoryPostgres', () => {
     });
 
     await ThreadsTableTestHelper.addThread({
-      id: 'thread-123',
+      threadId: 'thread-123',
       title: 'Dicoding Indonesia is the best',
       body: 'bla bla bla',
       owner: 'user-123',
     });
 
     await CommentsTableTestHelper.addComment({
-      id: 'comment-123',
+      commentId: 'comment-123',
       content: 'bla bla bla',
       threadId: 'thread-123',
       owner: 'user-123',
@@ -42,7 +42,7 @@ describe('ReplyRepositoryPostgres', () => {
   });
 
   describe('addReply function', () => {
-    it('should persist add new reply correctly', async () => {
+    it('should persist add reply correctly', async () => {
       // Arrange
       const addReply = new AddReply({
         content: 'bla bla bla',
@@ -99,7 +99,7 @@ describe('ReplyRepositoryPostgres', () => {
   });
 
   describe('getRepliesByThreadId function', () => {
-    it('should return all replies by thread id correctly', async () => {
+    it('should return all replies by thread replyId correctly', async () => {
       // Arrange
 
       await UsersTableTestHelper.addUser({
@@ -193,7 +193,7 @@ describe('ReplyRepositoryPostgres', () => {
       await expect(replyRepositoryPostgres.verifyReplyIsExist({
         threadId: 'thread-123',
         commentId: 'comment-123',
-        id: 'reply-123',
+        replyId: 'reply-123',
       })).resolves.not.toThrowError(NotFoundError);
     });
   });
@@ -235,7 +235,7 @@ describe('ReplyRepositoryPostgres', () => {
       // Action & Assert
       await expect(
         replyRepositoryPostgres.verifyReplyOwner({
-          id: 'reply-123',
+          replyId: 'reply-123',
           owner: 'user-123',
         }),
       ).resolves.not.toThrowError(AuthorizationError);
@@ -243,7 +243,7 @@ describe('ReplyRepositoryPostgres', () => {
   });
 
   describe('deleteReplyById function', () => {
-    it('should delete the reply by comment id correctlt', async () => {
+    it('should delete the reply by comment replyId correctlt', async () => {
       await RepliesTableTestHelper.addReply({
         id: 'reply-123',
         content: 'bla bla bla',

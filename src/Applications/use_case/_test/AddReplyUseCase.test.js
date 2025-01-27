@@ -24,11 +24,9 @@ describe('AddReplyUseCase', () => {
       owner,
     });
 
-    // create dependency use case
     const mockCommentRepository = new CommentRepository();
     const mockReplyRepository = new ReplyRepository();
 
-    // mocking
     mockCommentRepository.verifyCommentIsExist = jest.fn()
       .mockImplementation(() => Promise.resolve());
 
@@ -40,7 +38,6 @@ describe('AddReplyUseCase', () => {
       }),
     ));
 
-    // creating use case instance
     const addReplyUseCase = new AddReplyUseCase({
       commentRepository: mockCommentRepository,
       replyRepository: mockReplyRepository,
@@ -54,15 +51,13 @@ describe('AddReplyUseCase', () => {
       commentId: params.commentId,
       threadId: params.threadId,
     });
-
     expect(mockReplyRepository.addReply).toBeCalledWith(
       new AddReply({
         content: payload.content,
-        owner,
         commentId: params.commentId,
+        owner,
       }),
     );
-
     expect(addedReply).toStrictEqual(expectedAddedReply);
   });
 });
