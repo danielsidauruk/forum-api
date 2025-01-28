@@ -9,8 +9,7 @@ describe('GetThreadUseCase', () => {
   it('should orchestrating get detail thread action correctly', async () => {
     // Arrange
     const params = {
-      id: 'thread-123',
-      // threadId: 'thread-123',
+      threadId: 'thread-123',
     };
 
     const thread = {
@@ -118,12 +117,9 @@ describe('GetThreadUseCase', () => {
     const detailThread = await getThreadUseCase.execute(params);
 
     // Assert
-    // expect(mockThreadRepository.getThreadById).toBeCalledWith(params.threadId);
-    expect(mockThreadRepository.getThreadById).toBeCalledWith(params.id);
-    // expect(mockCommentRepository.getCommentsByThreadId).toBeCalledWith(params.threadId);
-    expect(mockThreadRepository.getThreadById).toBeCalledWith(params.id);
-    // expect(mockReplyRepository.getRepliesByThreadId).toBeCalledWith(params.threadId);
-    expect(mockReplyRepository.getRepliesByThreadId).toBeCalledWith(params.id);
+    expect(mockThreadRepository.getThreadById).toBeCalledWith(params.threadId);
+    expect(mockCommentRepository.getCommentsByThreadId).toBeCalledWith(params.threadId);
+    expect(mockReplyRepository.getRepliesByThreadId).toBeCalledWith(params.threadId);
     expect(detailThread).toEqual(expectedCommentsAndReplies);
   });
 });

@@ -6,6 +6,7 @@ class ThreadsHandler {
     this._container = container;
 
     this.postThreadHandler = this.postThreadHandler.bind(this);
+    this.getThreadHandler = this.getThreadHandler.bind(this);
   }
 
   async postThreadHandler(request, h) {
@@ -18,8 +19,7 @@ class ThreadsHandler {
       data: {
         addedThread,
       },
-    });
-    response.code(201);
+    }).code(201);
     return response;
   }
 

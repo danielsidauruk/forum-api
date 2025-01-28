@@ -56,7 +56,7 @@ class CommentRepositoryPostgres extends CommentRepository {
 
     const { rowCount } = await this._pool.query(query);
 
-    if (!rowCount) throw new NotFoundError('comment not found');
+    if (!rowCount) throw new NotFoundError('comment tidak ditemukan');
   }
 
   async verifyCommentOwner({ commentId, owner }) {
@@ -68,12 +68,12 @@ class CommentRepositoryPostgres extends CommentRepository {
     const { rowCount } = await this._pool.query(query);
     if (!rowCount) {
       throw new AuthorizationError(
-        'you are not authorized to delete the comment',
+        'anda tidak memiliki akses untuk menghapus komen ini',
       );
     }
   }
 
-  async getCommentsByThreadId(commentId) {
+  async getCommentsByThreadId(threadId) {
     const query = {
       text: `SELECT 
                 comments.id,
@@ -89,7 +89,7 @@ class CommentRepositoryPostgres extends CommentRepository {
                 comments.thread_id = $1
              ORDER BY 
                 comments.date ASC`,
-      values: [commentId],
+      values: [threadId],
     };
 
     const { rows } = await this._pool.query(query);
