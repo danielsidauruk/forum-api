@@ -107,9 +107,8 @@ describe('ThreadRepositoryPostgres', () => {
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
       // Action & Assert
-      expect(() => {
-        threadRepositoryPostgres.getThreadById('thread-123').rejects.toThrowError(NotFoundError);
-      });
+      await expect(threadRepositoryPostgres.getThreadById('thread-123'))
+        .rejects.toThrowError(NotFoundError);
     });
 
     it('should return thread correctly', async () => {
