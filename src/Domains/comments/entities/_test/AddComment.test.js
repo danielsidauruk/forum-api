@@ -20,7 +20,7 @@ describe('a AddComment entities', () => {
     };
 
     // Action & Assert
-    expect(() => new AddComment(payload)).toThrowError('ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATIONS');
+    expect(() => new AddComment(payload)).toThrowError('ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
   });
 
   it('should create AddComment object correctly', () => {

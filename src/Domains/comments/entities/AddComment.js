@@ -16,7 +16,7 @@ class AddComment {
     }
 
     if (typeof content !== 'string' || typeof owner !== 'string' || typeof threadId !== 'string') {
-      throw new Error('ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATIONS');
+      throw new Error('ADD_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
   }
 }

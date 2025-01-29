@@ -4,6 +4,9 @@ const DeleteReplyUseCase = require('../../../../Applications/use_case/DeleteRepl
 class RepliesHandler {
   constructor(container) {
     this._container = container;
+
+    this.postCommentReplyHandler = this.postCommentReplyHandler.bind(this);
+    this.deleteReplyHandler = this.deleteReplyHandler.bind(this);
   }
 
   async postCommentReplyHandler(req, h) {
