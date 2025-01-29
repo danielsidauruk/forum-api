@@ -9,13 +9,13 @@ class AddCommentUseCase {
   async execute(payload, params, owner) {
     const { threadId } = params;
     await this._threadRepository.verifyThreadIsExistById(threadId);
-    const addComment = new AddComment({
+    const comment = new AddComment({
       ...payload,
       owner,
       threadId,
     });
 
-    return this._commentRepository.addComment(addComment);
+    return this._commentRepository.addComment(comment);
   }
 }
 

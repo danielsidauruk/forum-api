@@ -29,7 +29,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     return new AddedThread({ ...rows[0] });
   }
 
-  async getThreadById(threadId) {
+  async getThreadById(id) {
     const query = {
       text: `SELECT
               threads.id,
@@ -43,8 +43,9 @@ class ThreadRepositoryPostgres extends ThreadRepository {
               users
             ON
               threads.owner = users.id
-            WHERE threads.id = $1`,
-      values: [threadId],
+            WHERE 
+              threads.id = $1`,
+      values: [id],
     };
 
     const result = await this._pool.query(query);
@@ -56,10 +57,10 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     return result.rows[0];
   }
 
-  async verifyThreadIsExistById(threadId) {
+  async verifyThreadIsExistById(id) {
     const query = {
       text: 'SELECT * FROM threads WHERE id = $1',
-      values: [threadId],
+      values: [id],
     };
 
     const result = await this._pool.query(query);
@@ -69,10 +70,10 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     }
   }
 
-  async deleteThreadById(threadId) {
+  async deleteThreadById(id) {
     const query = {
       text: 'DELETE FROM threads WHERE id = $1',
-      values: [threadId],
+      values: [id],
     };
 
     await this._pool.query(query);

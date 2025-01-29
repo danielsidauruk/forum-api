@@ -1,19 +1,11 @@
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
-const AutheticationsTestHelper = require('../../../../tests/AutheticationsTestHelper');
+const AutheticationsTestHelper = require('../../../../tests/AutheticationTestHelper');
 const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const RepliesTableTestHelper = require('../../../../tests/RepliesTableTestHelper');
 const createServer = require('../createServer');
 const container = require('../../container');
 const pool = require('../../database/postgres/pool');
-// const pool = require('../../database/postgres/pool');
-// const container = require('../../container');
-// const createServer = require('../createServer');
-// const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper');
-// const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
-// const AuthenticationTestHelper = require('../../../../tests/AuthenticationsTestHelper');
-// const CommentsTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
-// const RepliesTableTestHelper = require('../../../../tests/RepliesTableTestHelper');
 
 describe('/threads endpoint', () => {
   afterEach(async () => {
@@ -26,7 +18,7 @@ describe('/threads endpoint', () => {
   });
 
   describe('when POST /threads', () => {
-    it('should response with 401 when no access token provided', async () => {
+    it('should response 401 when no access token provided', async () => {
       // Arrange
       const requestPayload = {
         title: 'Dicoding Indonesia is the best',
@@ -48,7 +40,7 @@ describe('/threads endpoint', () => {
       expect(responseJson.message).toEqual('Missing authentication');
     });
 
-    it('should response with 400 when request payload not contain needed property', async () => {
+    it('should response 400 when request payload not contain needed property', async () => {
       // Arrange
       const requestPayload = {
         title: 'some thread',
@@ -73,7 +65,7 @@ describe('/threads endpoint', () => {
       expect(responseJson.message).toEqual('tidak dapat membuat thread baru karena properti yang dibutuhkan tidak ada');
     });
 
-    it('should response with 400 when request payload not meet data type specification', async () => {
+    it('should response 400 when request payload not meet data type specification', async () => {
       // Arrange
       const requestPayload = {
         title: 'Dicoding Indonesia is the best',
@@ -100,7 +92,7 @@ describe('/threads endpoint', () => {
       expect(responseJson.message).toEqual('tidak dapat membuat thread baru karena tipe data tidak sesuai');
     });
 
-    it('should response with 201 and persisted thread', async () => {
+    it('should response 201 and added thread', async () => {
       // Arrange
       const requestPayload = {
         title: 'Dicoding Indonesia is the best',
@@ -132,7 +124,7 @@ describe('/threads endpoint', () => {
   });
 
   describe('when GET /threads/{threadId}', () => {
-    it('should response with 200 when get thread', async () => {
+    it('should response 200 when get thread', async () => {
       // Arrange
       const server = await createServer(container);
       const threadId = 'thread-123';

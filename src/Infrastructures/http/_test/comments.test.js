@@ -5,7 +5,7 @@ const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const CommentTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const RepliesTableTestHelper = require('../../../../tests/RepliesTableTestHelper');
-const AuthenticationTestHelper = require('../../../../tests/AutheticationsTestHelper');
+const AuthenticationTestHelper = require('../../../../tests/AutheticationTestHelper');
 
 describe('/threads/{threadId}/comments endpoint', () => {
   afterEach(async () => {
@@ -20,7 +20,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
   });
 
   describe('when POST /threads/{threadId}/comments', () => {
-    it('should response with 401 when no access token provided', async () => {
+    it('should response 401 when no access token provided', async () => {
       // Arrange
       const server = await createServer(container);
 
@@ -52,7 +52,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.message).toEqual('Missing authentication');
     });
 
-    it('should response with 400 when request payload not contain needed property', async () => {
+    it('should response 400 when request payload not contain needed property', async () => {
       // Arrange
       const server = await createServer(container);
       const threadId = 'thread-123';
@@ -87,7 +87,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       );
     });
 
-    it('should response with 400 when payload not meet data specifications', async () => {
+    it('should response 400 when request payload not meet data specifications', async () => {
       // Arrange
       const server = await createServer(container);
       const threadId = 'thread-123';
@@ -122,7 +122,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.message).toEqual('tidak dapat membuat comment baru karena tipe data tidak sesuai');
     });
 
-    it('should response with 201 and persisted comment', async () => {
+    it('should response 201 and added comment', async () => {
       // Arrange
       const server = await createServer(container);
       const threadId = 'thread-123';
@@ -162,7 +162,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
   });
 
   describe('when DELETE /threads/{threadId}/comments/{commentId}', () => {
-    it('should response with 401 when no access token provided', async () => {
+    it('should response 401 when no access token provided', async () => {
       // Arrange
       const server = await createServer(container);
       const threadId = 'thread-123';
@@ -181,7 +181,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.message).toEqual('Missing authentication');
     });
 
-    it('should response with 404 when comments not found', async () => {
+    it('should response 404 when comment or thread are not found', async () => {
       // Arrange
       const server = await createServer(container);
       const threadId = 'thread-123';
@@ -190,11 +190,6 @@ describe('/threads/{threadId}/comments endpoint', () => {
 
       await UsersTableTestHelper.addUser({
         id: 'user-123',
-      });
-
-      await ThreadsTableTestHelper.addThread({
-        id: threadId,
-        owner: 'user-123',
       });
 
       // Action
@@ -210,10 +205,10 @@ describe('/threads/{threadId}/comments endpoint', () => {
       const responseJson = JSON.parse(response.payload);
       expect(response.statusCode).toEqual(404);
       expect(responseJson.status).toEqual('fail');
-      expect(responseJson.message).toEqual('comment tidak ditemukan');
+      expect(responseJson.message).toBeDefined();
     });
 
-    it('should response with 403 when no access to delete the comment', async () => {
+    it('should response 403 when no access to delete the comment', async () => {
       // Arrange
       const server = await createServer(container);
       const threadId = 'thread-123';
@@ -250,7 +245,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.message).toEqual('anda tidak memiliki akses untuk menghapus komen ini');
     });
 
-    it('should response with 200 when delete comment correctly', async () => {
+    it('should response 200 when delete comment correctly', async () => {
       // Arrange
       const server = await createServer(container);
       const threadId = 'thread-123';

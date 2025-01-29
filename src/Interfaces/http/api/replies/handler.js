@@ -9,12 +9,12 @@ class RepliesHandler {
     this.deleteReplyHandler = this.deleteReplyHandler.bind(this);
   }
 
-  async postCommentReplyHandler(req, h) {
-    const { id: owner } = req.auth.credentials;
+  async postCommentReplyHandler(request, h) {
+    const { id: owner } = request.auth.credentials;
     const addReplyUseCase = this._container.getInstance(AddReplyUseCase.name);
     const addedReply = await addReplyUseCase.execute(
-      req.payload,
-      req.params,
+      request.payload,
+      request.params,
       owner,
     );
 
@@ -28,12 +28,12 @@ class RepliesHandler {
     return response;
   }
 
-  async deleteReplyHandler(req) {
-    const { id: userId } = req.auth.credentials;
+  async deleteReplyHandler(request) {
+    const { id: userId } = request.auth.credentials;
     const deleteReplyUseCase = this._container.getInstance(
       DeleteReplyUseCase.name,
     );
-    await deleteReplyUseCase.execute(req.params, userId);
+    await deleteReplyUseCase.execute(request.params, userId);
 
     return {
       status: 'success',

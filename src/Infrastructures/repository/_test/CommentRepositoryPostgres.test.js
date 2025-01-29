@@ -34,7 +34,7 @@ describe('CommentRepositoryPostgres', () => {
         body: 'bla bla bla',
       });
 
-      const addComment = new AddComment({
+      const comment = new AddComment({
         content: 'bla bla bla',
         owner: 'user-123',
         threadId: 'thread-123',
@@ -47,11 +47,11 @@ describe('CommentRepositoryPostgres', () => {
       );
 
       // Action
-      await commentRepositoryPostgres.addComment(addComment);
+      await commentRepositoryPostgres.addComment(comment);
 
       // Assert
-      const comment = await CommentsTableTestHelper.findCommentById('comment-123');
-      expect(comment).toHaveLength(1);
+      const foundComment = await CommentsTableTestHelper.findCommentById('comment-123');
+      expect(foundComment).toHaveLength(1);
     });
 
     it('should return added comment correctly', async () => {
@@ -67,7 +67,7 @@ describe('CommentRepositoryPostgres', () => {
         body: 'bla bla bla',
       });
 
-      const addComment = new AddComment({
+      const comment = new AddComment({
         content: 'bla bla bla',
         owner: 'user-123',
         threadId: 'thread-123',
@@ -80,9 +80,7 @@ describe('CommentRepositoryPostgres', () => {
       );
 
       // Action
-      const addedComment = await commentRepositoryPostgres.addComment(
-        addComment,
-      );
+      const addedComment = await commentRepositoryPostgres.addComment(comment);
 
       // Assert
       expect(addedComment).toStrictEqual(
@@ -96,7 +94,7 @@ describe('CommentRepositoryPostgres', () => {
   });
 
   describe('deleteComment function', () => {
-    it('should delete comment by commentId', async () => {
+    it('should delete comment by id', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({
         username: 'johndoe',
@@ -114,7 +112,7 @@ describe('CommentRepositoryPostgres', () => {
         threadId: 'thread-123',
       });
 
-      const addedComment = {
+      const comment = {
         id: 'comment-123',
         threadId: 'thread-123',
       };
@@ -122,11 +120,11 @@ describe('CommentRepositoryPostgres', () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       // Action
-      await commentRepositoryPostgres.deleteCommentById(addedComment.id);
-      const comment = await CommentsTableTestHelper.findCommentById(addedComment.id);
+      await commentRepositoryPostgres.deleteCommentById(comment.id);
+      const foundComment = await CommentsTableTestHelper.findCommentById(comment.id);
 
       // Assert
-      expect(comment[0].is_deleted).toEqual(true);
+      expect(foundComment[0].is_deleted).toEqual(true);
     });
   });
 
@@ -229,14 +227,14 @@ describe('CommentRepositoryPostgres', () => {
   });
 
   describe('getCommentsByThreadId function', () => {
-    it('should return all comment from a thread correctly', async () => {
+    it('should return all comments from a thread correctly', async () => {
       // Arrange
       const user = {
         id: 'user-123',
         username: 'johndoe',
       };
 
-      const newThread = {
+      const thread = {
         id: 'thread-123',
       };
 
@@ -257,7 +255,7 @@ describe('CommentRepositoryPostgres', () => {
       };
 
       await UsersTableTestHelper.addUser(user);
-      await ThreadsTableTestHelper.addThread(newThread);
+      await ThreadsTableTestHelper.addThread(thread);
 
       await CommentsTableTestHelper.addComment(firstComment);
       await CommentsTableTestHelper.addComment(secondComment);
@@ -265,9 +263,7 @@ describe('CommentRepositoryPostgres', () => {
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       // Action
-      const comments = await commentRepositoryPostgres.getCommentsByThreadId(
-        'thread-123',
-      );
+      const comments = await commentRepositoryPostgres.getCommentsByThreadId('thread-123');
 
       // Assert
       expect(comments).toEqual([

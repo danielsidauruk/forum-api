@@ -44,7 +44,7 @@ describe('ReplyRepositoryPostgres', () => {
   describe('addReply function', () => {
     it('should persist add reply correctly', async () => {
       // Arrange
-      const addReply = new AddReply({
+      const reply = new AddReply({
         content: 'bla bla bla',
         owner: 'user-123',
         commentId: 'comment-123',
@@ -57,16 +57,16 @@ describe('ReplyRepositoryPostgres', () => {
       );
 
       // Action
-      await replyRepositoryPostgres.addReply(addReply);
+      await replyRepositoryPostgres.addReply(reply);
 
       // Assert
-      const reply = await RepliesTableTestHelper.findReplyById('reply-123');
-      expect(reply).toHaveLength(1);
+      const foundReply = await RepliesTableTestHelper.findReplyById('reply-123');
+      expect(foundReply).toHaveLength(1);
     });
 
     it('should return addReply correctly', async () => {
       // Arrange
-      const addReply = new AddReply({
+      const reply = new AddReply({
         content: 'bla bla bla',
         owner: 'user-123',
         commentId: 'comment-123',
@@ -85,7 +85,7 @@ describe('ReplyRepositoryPostgres', () => {
       );
 
       // Action
-      const addedReply = await replyRepositoryPostgres.addReply(addReply);
+      const addedReply = await replyRepositoryPostgres.addReply(reply);
 
       // Assert
       expect(addedReply).toStrictEqual(
@@ -99,7 +99,7 @@ describe('ReplyRepositoryPostgres', () => {
   });
 
   describe('getRepliesByThreadId function', () => {
-    it('should return all replies by thread replyId correctly', async () => {
+    it('should return all replies by threadId correctly', async () => {
       // Arrange
 
       await UsersTableTestHelper.addUser({
@@ -153,12 +153,10 @@ describe('ReplyRepositoryPostgres', () => {
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
       // Action
-      const replies = await replyRepositoryPostgres.getRepliesByThreadId(
-        'thread-123',
-      );
+      const foundReplies = await replyRepositoryPostgres.getRepliesByThreadId('thread-123');
 
       // Assert
-      expect(replies).toEqual(expectedReplies);
+      expect(foundReplies).toEqual(expectedReplies);
     });
   });
 
@@ -177,7 +175,6 @@ describe('ReplyRepositoryPostgres', () => {
 
     it('should not throw NotFoundError when reply is found', async () => {
       // Arrange
-
       await RepliesTableTestHelper.addReply({
         id: 'reply-123',
         content: 'bla bla bla',
@@ -199,7 +196,7 @@ describe('ReplyRepositoryPostgres', () => {
   });
 
   describe('verifyReplyOwner function', () => {
-    it('should throw AuthorizationError when you no access to delete the reply', async () => {
+    it('should throw AuthorizationError when no access to delete the reply', async () => {
       await RepliesTableTestHelper.addReply({
         id: 'reply-123',
         content: 'bla bla bla',
@@ -212,15 +209,13 @@ describe('ReplyRepositoryPostgres', () => {
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
       // Action & Assert
-      expect(
-        replyRepositoryPostgres.verifyReplyOwner({
-          replyId: 'reply-123',
-          owner: 'user-456',
-        }),
-      ).rejects.toThrowError(AuthorizationError);
+      expect(replyRepositoryPostgres.verifyReplyOwner({
+        replyId: 'reply-123',
+        owner: 'user-456',
+      })).rejects.toThrowError(AuthorizationError);
     });
 
-    it('should not throw AuthorizationError when you have access to delete the reply', async () => {
+    it('should not throw AuthorizationError when have access to delete the reply', async () => {
       await RepliesTableTestHelper.addReply({
         id: 'reply-123',
         content: 'bla bla bla',
@@ -243,7 +238,7 @@ describe('ReplyRepositoryPostgres', () => {
   });
 
   describe('deleteReplyById function', () => {
-    it('should delete the reply by comment replyId correctlt', async () => {
+    it('should delete the reply by comment replyId correctly', async () => {
       await RepliesTableTestHelper.addReply({
         id: 'reply-123',
         content: 'bla bla bla',
@@ -259,8 +254,8 @@ describe('ReplyRepositoryPostgres', () => {
       await replyRepositoryPostgres.deleteReplyById('reply-123');
 
       // Assert
-      const reply = await RepliesTableTestHelper.findReplyById('reply-123');
-      expect(reply[0].is_deleted).toBe(true);
+      const foundReply = await RepliesTableTestHelper.findReplyById('reply-123');
+      expect(foundReply[0].is_deleted).toBe(true);
     });
   });
 });

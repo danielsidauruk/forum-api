@@ -9,13 +9,13 @@ class AddReplyUseCase {
   async execute(payload, params, owner) {
     const { threadId, commentId } = params;
     await this._commentRepository.verifyCommentIsExist({ commentId, threadId });
-    const addReply = new AddReply({
+    const reply = new AddReply({
       ...payload,
       owner,
       commentId,
     });
 
-    return this._replyRepository.addReply(addReply);
+    return this._replyRepository.addReply(reply);
   }
 }
 

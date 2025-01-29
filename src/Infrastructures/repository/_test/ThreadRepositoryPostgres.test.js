@@ -17,7 +17,7 @@ describe('ThreadRepositoryPostgres', () => {
   });
 
   describe('addThread function', () => {
-    it('should persist add new thread correctly', async () => {
+    it('should persist add thread correctly', async () => {
       // Arrange
       await UsersTableTestHelper.addUser({
         username: 'dicoding',
@@ -25,7 +25,7 @@ describe('ThreadRepositoryPostgres', () => {
         fullname: 'Dicoding Indonesia',
       });
 
-      const addThread = new AddThread({
+      const thread = new AddThread({
         title: 'Dicoding Indonesia Is the best',
         body: 'bla bla bla',
         owner: 'user-123',
@@ -38,11 +38,11 @@ describe('ThreadRepositoryPostgres', () => {
       );
 
       // Action
-      await threadRepositoryPostgres.addThread(addThread);
+      await threadRepositoryPostgres.addThread(thread);
 
       // Assert
-      const thread = await ThreadsTableTestHelper.findThreadById('thread-123');
-      expect(thread).toHaveLength(1);
+      const foundThread = await ThreadsTableTestHelper.findThreadById('thread-123');
+      expect(foundThread).toHaveLength(1);
     });
 
     it('should return added thread correctly', async () => {
@@ -53,7 +53,7 @@ describe('ThreadRepositoryPostgres', () => {
         fullname: 'Dicoding Indonesia',
       });
 
-      const addThread = new AddThread({
+      const thread = new AddThread({
         title: 'Dicoding Indonesia Is the best',
         body: 'bla bla bla',
         owner: 'user-123',
@@ -66,7 +66,7 @@ describe('ThreadRepositoryPostgres', () => {
       );
 
       // Action
-      const addedThread = await threadRepositoryPostgres.addThread(addThread);
+      const addedThread = await threadRepositoryPostgres.addThread(thread);
 
       // Assert
       expect(addedThread).toStrictEqual(
@@ -85,7 +85,8 @@ describe('ThreadRepositoryPostgres', () => {
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
       // Action & Assert
-      expect(() => threadRepositoryPostgres.verifyThreadIsExistById('thread-123')).rejects.toThrowError(NotFoundError);
+      expect(() => threadRepositoryPostgres.verifyThreadIsExistById('thread-123'))
+        .rejects.toThrowError(NotFoundError);
     });
 
     it('should not throw NotFoundError when thread is found', async () => {
@@ -95,9 +96,8 @@ describe('ThreadRepositoryPostgres', () => {
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
       // Action & Assert
-      await expect(
-        threadRepositoryPostgres.verifyThreadIsExistById('thread-123'),
-      ).resolves.not.toThrow(NotFoundError);
+      await expect(threadRepositoryPostgres.verifyThreadIsExistById('thread-123'))
+        .resolves.not.toThrow(NotFoundError);
     });
   });
 
@@ -114,7 +114,7 @@ describe('ThreadRepositoryPostgres', () => {
 
     it('should return thread correctly', async () => {
       // Arrange
-      const addThread = {
+      const thread = {
         id: 'thread-123',
         title: 'Dicoding Indonesia Is the best',
         body: 'bla bla bla',
@@ -137,14 +137,14 @@ describe('ThreadRepositoryPostgres', () => {
         fullname: 'Dicoding Indonesia',
       });
 
-      await ThreadsTableTestHelper.addThread(addThread);
+      await ThreadsTableTestHelper.addThread(thread);
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
       // Action
-      const thread = await threadRepositoryPostgres.getThreadById('thread-123');
+      const foundThread = await threadRepositoryPostgres.getThreadById('thread-123');
 
       // Assert
-      expect(thread).toEqual(expectedThread);
+      expect(foundThread).toEqual(expectedThread);
     });
   });
 });

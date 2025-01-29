@@ -5,7 +5,7 @@ const ThreadsTableTestHelper = require('../../../../tests/ThreadsTableTestHelper
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const CommentTableTestHelper = require('../../../../tests/CommentsTableTestHelper');
 const RepliesTableTestHelper = require('../../../../tests/RepliesTableTestHelper');
-const AuthenticationTestHelper = require('../../../../tests/AutheticationsTestHelper');
+const AuthenticationTestHelper = require('../../../../tests/AutheticationTestHelper');
 
 describe('/threads/{threadId}/comments endpoint', () => {
   afterEach(async () => {
@@ -20,7 +20,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
   });
 
   describe('when POST /threads/{threadId}/comments/{commentId}/replies', () => {
-    it('should response with 401 when no access token provided', async () => {
+    it('should response 401 when no access token provided', async () => {
       // Arrange
       const server = await createServer(container);
       const requestParams = {
@@ -59,7 +59,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.message).toEqual('Missing authentication');
     });
 
-    it('should response with 400 when request payload not contain needed property', async () => {
+    it('should response 400 when request payload not contain needed property', async () => {
       // Arrange
       const server = await createServer(container);
       const { accessToken, userId } = await AuthenticationTestHelper.getAccessTokenHelper(server);
@@ -97,7 +97,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.message).toBeDefined();
     });
 
-    it('should response with 400 when payload not meet data specifications', async () => {
+    it('should response 400 when request payload not meet data specifications', async () => {
       // Arrange
       const server = await createServer(container);
       const { accessToken, userId } = await AuthenticationTestHelper.getAccessTokenHelper(server);
@@ -137,7 +137,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.message).toBeDefined();
     });
 
-    it('should response with 201 and persisted comment', async () => {
+    it('should response 201 and added comment', async () => {
       // Arrange
       const server = await createServer(container);
       const { accessToken, userId } = await AuthenticationTestHelper.getAccessTokenHelper(server);
@@ -186,7 +186,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
   });
 
   describe('when DELETE when POST /threads/{threadId}/comments/{commentId}/replies/{replyId}', () => {
-    it('should response with 401 when no access token provided', async () => {
+    it('should response 401 when no access token provided', async () => {
       // Arrange
       const server = await createServer(container);
       const requestParams = {
@@ -227,7 +227,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.message).toEqual('Missing authentication');
     });
 
-    it('should response with 404 when reply not found', async () => {
+    it('should response 404 when reply not found', async () => {
       // Arrange
       const server = await createServer(container);
       const { accessToken, userId } = await AuthenticationTestHelper.getAccessTokenHelper(server);
@@ -264,7 +264,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.message).toBeDefined();
     });
 
-    it('should response with 403 when no access to delete the reply', async () => {
+    it('should response 403 when no access to delete the reply', async () => {
       // Arrange
       const server = await createServer(container);
       const { accessToken, userId } = await AuthenticationTestHelper.getAccessTokenHelper(server);
@@ -312,7 +312,7 @@ describe('/threads/{threadId}/comments endpoint', () => {
       expect(responseJson.message).toBeDefined();
     });
 
-    it('should response with 200 when delete reply correctly', async () => {
+    it('should response 200 when delete reply correctly', async () => {
       // Arrange
       const server = await createServer(container);
       const { accessToken, userId } = await AuthenticationTestHelper.getAccessTokenHelper(server);

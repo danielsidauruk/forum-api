@@ -28,13 +28,13 @@ class CommentsHandler {
     return response;
   }
 
-  async deleteCommentHandler(req) {
-    const { id: userId } = req.auth.credentials;
+  async deleteCommentHandler(request) {
+    const { id: userId } = request.auth.credentials;
     const deleteCommentUseCase = this._container.getInstance(
       DeleteCommentUseCase.name,
     );
 
-    await deleteCommentUseCase.execute(req.params, userId);
+    await deleteCommentUseCase.execute(request.params, userId);
 
     return {
       status: 'success',

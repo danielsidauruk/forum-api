@@ -12,7 +12,7 @@ class ReplyRepositoryPostgres extends ReplyRepository {
   }
 
   async addReply({ content, owner, commentId }) {
-    const replyId = `reply-${this._idGenerator()}`;
+    const id = `reply-${this._idGenerator()}`;
     const date = new Date().toISOString();
 
     const query = {
@@ -22,17 +22,17 @@ class ReplyRepositoryPostgres extends ReplyRepository {
               ($1, $2, $3, $4, $5)
             RETURNING
               id, content, owner`,
-      values: [replyId, content, owner, commentId, date],
+      values: [id, content, owner, commentId, date],
     };
 
     const { rows } = await this._pool.query(query);
     return new AddedReply({ ...rows[0] });
   }
 
-  async deleteReplyById(replyId) {
+  async deleteReplyById(id) {
     const query = {
       text: 'UPDATE replies SET is_deleted = true WHERE id = $1',
-      values: [replyId],
+      values: [id],
     };
 
     await this._pool.query(query);

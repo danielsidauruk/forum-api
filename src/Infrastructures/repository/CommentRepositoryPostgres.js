@@ -13,27 +13,27 @@ class CommentRepositoryPostgres extends CommentRepository {
 
   async addComment(comment) {
     const { content, owner, threadId } = comment;
-    const commentId = `comment-${this._idGenerator()}`;
+    const id = `comment-${this._idGenerator()}`;
     const date = new Date().toISOString();
 
     const query = {
-      text: `INSERT INTO comments 
-              (id, content, owner, thread_id, date)
+      text: `INSERT INTO 
+              comments (id, content, owner, thread_id, date)
             VALUES 
               ($1, $2, $3, $4, $5)
             RETURNING 
               id, content, owner`,
-      values: [commentId, content, owner, threadId, date],
+      values: [id, content, owner, threadId, date],
     };
 
     const { rows } = await this._pool.query(query);
     return new AddedComment({ ...rows[0] });
   }
 
-  async deleteCommentById(commentId) {
+  async deleteCommentById(id) {
     const query = {
       text: 'UPDATE comments SET is_deleted = TRUE WHERE id = $1',
-      values: [commentId],
+      values: [id],
     };
 
     await this._pool.query(query);
@@ -73,7 +73,7 @@ class CommentRepositoryPostgres extends CommentRepository {
     }
   }
 
-  async getCommentsByThreadId(threadId) {
+  async getCommentsByThreadId(id) {
     const query = {
       text: `SELECT 
                 comments.id,
@@ -89,7 +89,7 @@ class CommentRepositoryPostgres extends CommentRepository {
                 comments.thread_id = $1
              ORDER BY 
                 comments.date ASC`,
-      values: [threadId],
+      values: [id],
     };
 
     const { rows } = await this._pool.query(query);
