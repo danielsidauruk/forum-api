@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const AutheticationsTestHelper = {
   async getAccessTokenHelper(server) {
     const responsRegister = await server.inject({
