@@ -36,7 +36,31 @@ describe('a DetailReply entities', () => {
     // Arrange
     const payload = {
       id: 'reply-123',
-      content: 'some reply',
+      content: 'bla bla bla',
+      date: '2023-09-28T02:46:32.762Z',
+      username: 'dicoding',
+      commentId: 'comment-123',
+      isDeleted: false,
+    };
+
+    // Action
+    const {
+      id, content, date, username, commentId,
+    } = new DetailReply(payload);
+
+    // Assert
+    expect(id).toEqual(payload.id);
+    expect(content).toEqual(payload.content);
+    expect(date).toEqual(payload.date);
+    expect(username).toEqual(payload.username);
+    expect(commentId).toEqual(payload.commentId);
+  });
+
+  it('should create detailReply object with deleted content correctly', () => {
+    // Arrange
+    const payload = {
+      id: 'reply-123',
+      content: 'bla bla bla',
       date: '2023-09-28T02:46:32.762Z',
       username: 'dicoding',
       commentId: 'comment-123',

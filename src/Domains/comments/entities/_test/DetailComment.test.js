@@ -50,4 +50,28 @@ describe('a DetailComment entities', () => {
     expect(date).toEqual(payload.date);
     expect(content).toEqual(payload.content);
   });
+
+  it('should get data detail comment with deleted comment object correctly', () => {
+    // Arrange
+    const payload = {
+      id: 'comment-123',
+      username: 'johndoe',
+      date: new Date().toISOString(),
+      content: 'bla bla bla',
+      isDeleted: true,
+    };
+    // Action
+    const {
+      id,
+      username,
+      date,
+      content,
+    } = new DetailComment(payload);
+
+    // Assert
+    expect(id).toEqual(payload.id);
+    expect(username).toEqual(payload.username);
+    expect(date).toEqual(payload.date);
+    expect(content).toEqual('**komentar telah dihapus**');
+  });
 });
