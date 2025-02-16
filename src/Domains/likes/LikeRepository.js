@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable class-methods-use-this */
 class LikeRepository {
-  async checkIfUserHasLikedComment({ commentId, userId }) {
+  async checkIfUserLikeComment({ commentId, userId }) {
     throw new Error('LIKE_REPOSITORY.METHOD_NOT_IMPLEMENTED');
   }
 

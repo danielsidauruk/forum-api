@@ -12,7 +12,7 @@ class ManageCommentLikeUseCase {
     await this._commentRepository.verifyCommentIsExist(commentId);
 
     const isCommentLiked = await this._likeRepository
-      .checkIfUserHasLikedComment({ userId, commentId });
+      .checkIfUserLikeComment({ userId, commentId });
 
     if (isCommentLiked) {
       await this._likeRepository.unlikeComment({ commentId, userId });

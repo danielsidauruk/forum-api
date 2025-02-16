@@ -18,7 +18,7 @@ describe('LikeUnlikeUseCase', () => {
 
     mockThreadRepository.verifyThreadExist = jest.fn(() => Promise.resolve());
     mockCommentRepository.verifyCommentIsExist = jest.fn(() => Promise.resolve());
-    mockLikeRepository.checkIfUserHasLikedComment = jest.fn(() => Promise.resolve(false));
+    mockLikeRepository.checkIfUserLikeComment = jest.fn(() => Promise.resolve(false));
     mockLikeRepository.likeComment = jest.fn(() => Promise.resolve());
     mockLikeRepository.unlikeComment = jest.fn(() => Promise.resolve());
 
@@ -34,7 +34,7 @@ describe('LikeUnlikeUseCase', () => {
     // Assert
     expect(mockThreadRepository.verifyThreadExist).toBeCalledWith(params.threadId);
     expect(mockCommentRepository.verifyCommentIsExist).toBeCalledWith(params.commentId);
-    expect(mockLikeRepository.checkIfUserHasLikedComment).toBeCalledWith({
+    expect(mockLikeRepository.checkIfUserLikeComment).toBeCalledWith({
       commentId: params.commentId,
       userId: params.userId,
     });
@@ -59,7 +59,7 @@ describe('LikeUnlikeUseCase', () => {
 
     mockThreadRepository.verifyThreadExist = jest.fn(() => Promise.resolve());
     mockCommentRepository.verifyCommentIsExist = jest.fn(() => Promise.resolve());
-    mockLikeRepository.checkIfUserHasLikedComment = jest.fn(() => Promise.resolve(true));
+    mockLikeRepository.checkIfUserLikeComment = jest.fn(() => Promise.resolve(true));
     mockLikeRepository.likeComment = jest.fn(() => Promise.resolve());
     mockLikeRepository.unlikeComment = jest.fn(() => Promise.resolve());
 
@@ -75,7 +75,7 @@ describe('LikeUnlikeUseCase', () => {
     // Assert
     expect(mockThreadRepository.verifyThreadExist).toBeCalledWith(params.threadId);
     expect(mockCommentRepository.verifyCommentIsExist).toBeCalledWith(params.commentId);
-    expect(mockLikeRepository.checkIfUserHasLikedComment).toBeCalledWith({
+    expect(mockLikeRepository.checkIfUserLikeComment).toBeCalledWith({
       commentId: params.commentId,
       userId: params.userId,
     });
