@@ -8,11 +8,13 @@ class ManageCommentLikeUseCase {
   async execute(useCasePayload) {
     const { threadId, commentId, userId } = useCasePayload;
 
-    await this._threadRepository.verifyThreadExist(threadId);
-    await this._commentRepository.verifyCommentIsExist(commentId);
+    await this._threadRepository.verifyThreadIsExistById(threadId);
+    await this._commentRepository.verifyCommentIsExist({ commentId, threadId });
 
-    const isCommentLiked = await this._likeRepository
-      .checkIfUserLikeComment({ userId, commentId });
+    const isCommentLiked = await this._likeRepository.checkIfUserLikeComment({
+      userId,
+      commentId,
+    });
 
     if (isCommentLiked) {
       await this._likeRepository.unlikeComment({ commentId, userId });
