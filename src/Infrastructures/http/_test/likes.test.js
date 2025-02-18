@@ -69,10 +69,10 @@ describe('/threads/{threadId}/comments/{commentId}/likes endpoint', () => {
         id: 'user-123',
       });
 
-      // await ThreadsTableTestHelper.addThread({
-      //   id: requestParams.threadId,
-      //   owner: 'user-123',
-      // });
+      await ThreadsTableTestHelper.addThread({
+        id: requestParams.threadId,
+        owner: 'user-123',
+      });
 
       await CommentsTableTestHelper.addComment({
         id: requestParams.commentId,
