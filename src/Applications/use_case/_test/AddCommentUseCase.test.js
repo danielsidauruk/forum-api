@@ -29,7 +29,7 @@ describe('AddCommentUseCase', () => {
 
     mockThreadRepository.verifyThreadIsExistById = jest.fn(() => Promise.resolve());
 
-    mockCommentRepository.addComment = jest.fn().mockImplementation(() => Promise.resolve(
+    mockCommentRepository.addComment = jest.fn(() => Promise.resolve(
       new AddedComment({
         id: payload.id,
         content: payload.content,

@@ -244,6 +244,7 @@ describe('CommentRepositoryPostgres', () => {
         content: 'bla bla bla',
         owner: 'user-123',
         isDeleted: false,
+        likeCount: 2,
       };
 
       const secondComment = {
@@ -252,6 +253,7 @@ describe('CommentRepositoryPostgres', () => {
         content: 'bla bla bla',
         owner: 'user-123',
         isDeleted: false,
+        likeCount: 2,
       };
 
       await UsersTableTestHelper.addUser(user);
